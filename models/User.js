@@ -33,6 +33,34 @@ const UserSchema = new mongoose.Schema(
         type: Array,
         default: [],
       },
+      enteredYear: {
+        type: Number,
+        required: true,
+      },
+      passOutYear: {
+        type: Number,
+        required: true,
+      },
+      phoneNumber: {
+        type: String,
+        required: true,
+      },
+      whatsappNumber: {
+        type: String,
+        required: true,
+      },
+      studentIdNumber: {
+        type: String,
+        required: true,
+      },
+      roleOfDegree: {
+        type: String,
+        required: true,
+      },
+         
+      extraQualification: String,
+      workPlace: String,
+      country: String,
       location: String,
       occupation: String,
       viewedProfile: Number,
