@@ -20,41 +20,10 @@ export const getUserFriends = async (req, res) => {
       user.friends.map((id) => User.findById(id))
     );
     const formattedFriends = friends.map(
-      ({
-        _id,
-        firstName,
-        lastName,
-        occupation,
-        location,
-        picturePath,
-        email,
-        enteredYear,
-        passOutYear,
-        phoneNumber,
-        roleOfDegree,
-        studentIdNumber,
-        workPlace,
-        country,
-      }) => {
-        return {
-          _id,
-          firstName,
-          lastName,
-          occupation,
-          location,
-          picturePath,
-          email,
-          enteredYear,
-          passOutYear,
-          phoneNumber,
-          roleOfDegree,
-          studentIdNumber,
-          workPlace,
-          country,
-        };
+      ({ _id, firstName, lastName, occupation, location, picturePath }) => {
+        return { _id, firstName, lastName, occupation, location, picturePath };
       }
     );
-
     res.status(200).json(formattedFriends);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -82,38 +51,8 @@ export const addRemoveFriend = async (req, res) => {
       user.friends.map((id) => User.findById(id))
     );
     const formattedFriends = friends.map(
-      ({
-        _id,
-        firstName,
-        lastName,
-        occupation,
-        location,
-        picturePath,
-        email,
-        enteredYear,
-        passOutYear,
-        phoneNumber,
-        roleOfDegree,
-        studentIdNumber,
-        workPlace,
-        country,
-      }) => {
-        return {
-          _id,
-          firstName,
-          lastName,
-          occupation,
-          location,
-          picturePath,
-          email,
-          enteredYear,
-          passOutYear,
-          phoneNumber,
-          roleOfDegree,
-          studentIdNumber,
-          workPlace,
-          country,
-        };
+      ({ _id, firstName, lastName, occupation, location, picturePath }) => {
+        return { _id, firstName, lastName, occupation, location, picturePath };
       }
     );
 
