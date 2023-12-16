@@ -39,7 +39,7 @@ const UserSchema = new mongoose.Schema(
     impressions: Number,
     enteredYear: Number,
     passOutYear: Number,
-    phoneNumber: String,
+    phoneNumber: Number,
     roleOfDegree: String,
     studentIdNumber: String,
     workPlace: String,
