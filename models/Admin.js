@@ -1,4 +1,3 @@
-// models/Admin.js
 import mongoose from "mongoose";
 
 const AdminSchema = new mongoose.Schema({
@@ -8,6 +7,14 @@ const AdminSchema = new mongoose.Schema({
     unique: true,
   },
   password: {
+    type: String,
+    required: true,
+  },
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
     type: String,
     required: true,
   },

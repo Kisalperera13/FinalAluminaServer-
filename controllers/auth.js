@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import Admin from "../models/Admin.js";
 
 /* REGISTER USER */
 export const register = async (req, res) => {
@@ -48,6 +49,7 @@ export const register = async (req, res) => {
       country,
       viewedProfile: Math.floor(Math.random() * 10000),
       impressions: Math.floor(Math.random() * 10000),
+      approved: false, 
     });
 
     const savedUser = await newUser.save();
@@ -56,6 +58,7 @@ export const register = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 
   /* LOGGING IN */
 export const login = async (req, res) => {
@@ -95,5 +98,28 @@ export const login = async (req, res) => {
         res.status(200).json({ token });
       } catch (error) {
         res.status(500).json({ error: error.message });
+      }
+    };
+
+    /* REGISTER ADMIN */
+
+    export const registerAdmin = async (req, res) => {
+      try {
+        const { username, password, firstName, lastName } = req.body;
+    
+        const salt = await bcrypt.genSalt();
+        const passwordHash = await bcrypt.hash(password, salt);
+    
+        const newAdmin = new Admin({
+          username,
+          password: passwordHash,
+          firstName,
+          lastName,
+        });
+    
+        const savedAdmin = await newAdmin.save();
+        res.status(201).json(savedAdmin);
+      } catch (err) {
+        res.status(500).json({ error: err.message });
       }
     };

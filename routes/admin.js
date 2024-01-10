@@ -1,13 +1,15 @@
 // routes/adminRoutes.js
 import express from "express";
-import {registerAdmin, loginAdmin } from "../controllers/admin.js"
+import {  fetchAdmin} from "../controllers/admin.js"
+import { adminApproveUser,adminRejectUser } from "../controllers/admin.js";
+import { verifyToken } from "../middleware/auth.js";
 
 const router = express.Router();
+router.use(verifyToken);
 
-// Admin registration
-router.post("/register", registerAdmin);
-
-// Admin login
-router.post("/login", loginAdmin);
+// Endpoint to fetch admin data
+router.get('/fetchadmin', fetchAdmin);
+router.put('/approve/:userId',verifyToken, adminApproveUser);
+router.put('/reject/:userId', verifyToken, adminRejectUser);
 
 export default router;

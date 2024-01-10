@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import emailValidator from "../utils/emailValidator.js";
 
 const UserSchema = new mongoose.Schema(
   {
@@ -19,6 +20,10 @@ const UserSchema = new mongoose.Schema(
       required: true,
       max: 50,
       unique: true,
+      validate: {
+          validator: emailValidator,
+          message: 'Invalid email address',
+      }
     },
     password: {
       type: String,
@@ -33,17 +38,53 @@ const UserSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-    location: String,
-    occupation: String,
-    viewedProfile: Number,
-    impressions: Number,
-    enteredYear: Number,
-    passOutYear: Number,
-    phoneNumber: Number,
-    roleOfDegree: String,
-    studentIdNumber: String,
-    workPlace: String,
-    country: String,
+
+    approved: {
+      type: Boolean,
+      default: false,
+    },
+
+    location: {
+      type: String,
+      required: true,
+    },
+    occupation: {
+      type: String,
+      required: true,
+    },
+    viewedProfile: {
+      type: Number,
+      required: true,
+    },
+    enteredYear: {
+      type: Number,
+      required: true,
+    },
+    passOutYear: {
+      type: Number,
+      required: true,
+    },
+    phoneNumber: {
+      type: Number,
+      required: true,
+    },
+    roleOfDegree: {
+      type: String,
+      required: true,
+    },
+    studentIdNumber: {
+      type: String,
+      required: true,
+    },
+    workPlace: {
+      type: String,
+      required: true,
+    },
+    country: {
+      type: String,
+      required: true,
+    },
+
   },
   { timestamps: true }
 );

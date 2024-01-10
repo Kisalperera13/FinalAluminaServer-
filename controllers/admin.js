@@ -2,38 +2,71 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Admin from "../models/Admin.js";
+import User from "../models/User.js";
 
-export const registerAdmin = async (req, res) => {
+
+//fetch admin data
+export const fetchAdmin = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const salt = await bcrypt.genSalt();
-    const passwordHash = await bcrypt.hash(password, salt);
+    // Fetch admin information from your API
+    const admin = await Admin.findOne(/* Add your query here */);
 
-    const newAdmin = new Admin({
-      username,
-      password: passwordHash,
-    });
+    // Send the admin data as the response
+    res.json(admin);
+  } catch (error) {
+    console.error('Error fetching admin data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
-    const savedAdmin = await newAdmin.save();
-    res.status(201).json(savedAdmin);
+export const adminApproveUser = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { approved: true },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Optionally, send an email to the user notifying them of the approval.
+
+    res.json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-export const loginAdmin = async (req, res) => {
+export const adminRejectUser = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const admin = await Admin.findOne({ username });
+    const userId = req.params.userId;
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { approved: false },
+      { new: true }
+    );
 
-    if (!admin) return res.status(400).json({ msg: "Admin does not exist." });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
-    const isMatch = await bcrypt.compare(password, admin.password);
-    if (!isMatch) return res.status(400).json({ msg: "Invalid credentials." });
+    // Send a rejection email to the user.
+    const mailOptions = {
+      from: 'your-email@gmail.com',
+      to: user.email,
+      subject: 'Account Rejection',
+      text: 'Your account request has been declined. Please contact support for more information.',
+    };
 
-    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET);
-    res.status(200).json({ token, admin });
+    await transporter.sendMail(mailOptions);
+
+    res.json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
+

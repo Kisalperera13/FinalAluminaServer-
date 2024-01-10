@@ -12,6 +12,7 @@ import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import path from "path";
 
+
 import { fileURLToPath } from 'url';
 import { register } from "./controllers/auth.js";
 import { createPost } from "./controllers/posts.js";
@@ -20,11 +21,25 @@ import { verifyToken } from "./middleware/auth.js";
 import User from "./models/User.js";
 import Post from "./models/Post.js";
 import { users} from "./data/index.js";
+import Transaction from "./models/Transaction.js";
 
+
+//user 
 import authRoutes from "./routes/auth.js";
 import usersRoutes from "./routes/users.js";
 import postRoutes from "./routes/posts.js";
 import adminRoutes from "./routes/admin.js";
+import clientRoutes from "./routes/client.js";
+
+import {
+  dataUser,
+  dataProduct,
+  dataProductStat,
+  dataTransaction,
+  dataOverallStat,
+  dataAffiliateStat,
+} from "./data/index.js";
+
 
 
 
@@ -65,9 +80,13 @@ app.post("/posts", verifyToken, upload.single("picture"), createPost);
 
 /* ROUTES */
 app.use("/auth", authRoutes);
-app.use("/users", usersRoutes);
+app.use("/users", usersRoutes); 
 app.use("/posts", postRoutes);
 app.use("/admin", adminRoutes)
+app.use("/client", clientRoutes);
+
+
+
 
   /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
@@ -82,6 +101,7 @@ mongoose
     /* ADD DATA ONE TIME */
     //  User.insertMany(users);
     // Post.insertMany(posts);
+    // Transaction.insertMany(dataTransaction);
 
   })
   .catch((err) => console.error('MongoDB connection error:', err));
