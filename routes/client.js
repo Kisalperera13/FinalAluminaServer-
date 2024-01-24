@@ -1,10 +1,8 @@
 import express from "express";
-import {
-  getTransactions,
-} from "../controllers/client.js";
+import { getSearch } from "../controllers/client.js";
 
 const router = express.Router();
 
-router.get("/transactions", getTransactions);
+router.get("/search", getSearch);
 
 export default router;

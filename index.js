@@ -18,10 +18,7 @@ import { register } from "./controllers/auth.js";
 import { createPost } from "./controllers/posts.js";
 import { verifyToken } from "./middleware/auth.js";
 
-import User from "./models/User.js";
-import Post from "./models/Post.js";
-import { users} from "./data/index.js";
-import Transaction from "./models/Transaction.js";
+
 
 
 //user 
@@ -30,20 +27,6 @@ import usersRoutes from "./routes/users.js";
 import postRoutes from "./routes/posts.js";
 import adminRoutes from "./routes/admin.js";
 import clientRoutes from "./routes/client.js";
-
-import {
-  dataUser,
-  dataProduct,
-  dataProductStat,
-  dataTransaction,
-  dataOverallStat,
-  dataAffiliateStat,
-} from "./data/index.js";
-
-
-
-
-
 
 
 /* CONFIGURATIONS */
@@ -87,7 +70,6 @@ app.use("/client", clientRoutes);
 
 
 
-
   /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
 
@@ -113,3 +95,20 @@ mongoose.connection.on('connected', () => {
   mongoose.connection.on('error', (err) => {
     console.error('MongoDB connection error:', err);
   });
+
+
+
+
+  /*data
+import User from "./models/User.js";
+import Post from "./models/Post.js";
+import { users} from "./data/index.js";
+import Transaction from "./models/Transaction.js";
+import {
+  dataUser,
+  dataProduct,
+  dataProductStat,
+  dataTransaction,
+  dataOverallStat,
+  dataAffiliateStat,
+} from "./data/index.js";*/ 

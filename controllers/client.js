@@ -1,9 +1,6 @@
+import User from "../models/User.js";
 
-import Transaction from "../models/Transaction.js";
-
-
-
-export const getTransactions = async (req, res) => {
+export const getSearch = async (req, res) => {
   try {
     // sort should look like this: { "field": "userId", "sort": "desc"}
     const { page = 1, pageSize = 20, sort = null, search = "" } = req.query;
@@ -19,27 +16,26 @@ export const getTransactions = async (req, res) => {
     };
     const sortFormatted = Boolean(sort) ? generateSort() : {};
 
-    const transactions = await Transaction.find({
+    const users = await User.find({
       $or: [
-        { cost: { $regex: new RegExp(search, "i") } },
-        { userId: { $regex: new RegExp(search, "i") } },
-      ],
+        { occupation: { $regex: new RegExp(search, "i") } },
+        { workPlace: { $regex: new RegExp(search, "i") } },
+      ]
     })
+      .select('firstName occupation workPlace email phoneNumber') // specific fields
       .sort(sortFormatted)
       .skip(page * pageSize)
       .limit(pageSize);
 
-    const total = await Transaction.countDocuments({
+    const total = await User.countDocuments({
       name: { $regex: search, $options: "i" },
     });
 
     res.status(200).json({
-      transactions,
+      users,  // Updated variable name here
       total,
     });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
 };
-
-
