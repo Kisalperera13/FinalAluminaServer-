@@ -54,14 +54,14 @@ export const adminRejectUser = async (req, res) => {
     }
 
     // Send a rejection email to the user.
-    const mailOptions = {
-      from: 'your-email@gmail.com',
-      to: user.email,
-      subject: 'Account Rejection',
-      text: 'Your account request has been declined. Please contact support for more information.',
-    };
+    // const mailOptions = {
+    //   from: 'your-email@gmail.com',
+    //   to: user.email,
+    //   subject: 'Account Rejection',
+    //   text: 'Your account request has been declined. Please contact support for more information.',
+    // };
 
-    await transporter.sendMail(mailOptions);
+    // await transporter.sendMail(mailOptions);
 
     res.json(user);
   } catch (err) {

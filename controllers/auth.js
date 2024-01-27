@@ -66,7 +66,7 @@ export const login = async (req, res) => {
       const { email, password } = req.body;
       const user = await User.findOne({ email: email });
       if (!user) return res.status(400).json({ msg: "User does not exist. " });
-  
+      if (!user.approved) return res.status(400).json({ msg: "Account does not approved. " });  
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) return res.status(400).json({ msg: "Invalid credentials. " });
   
@@ -93,9 +93,10 @@ export const login = async (req, res) => {
         if (!isPasswordValid) {
           return res.status(401).json({ message: "Invalid credentials" });
         }
+        const user = await User.findById('650edaec0eebc9dfc78db923');
     
         const token = jwt.sign({ id: admin._id, username: admin.username }, process.env.JWT_SECRET);
-        res.status(200).json({ token, admin });
+        res.status(200).json({ token, admin ,user});
       } catch (error) {
         res.status(500).json({ error: error.message });
       }

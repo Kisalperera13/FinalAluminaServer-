@@ -39,3 +39,20 @@ export const getSearch = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+export const getFalseUsers = async (req, res) => {
+  try{
+
+    
+    const users = await User.find({
+      approved: false
+    })
+      
+
+    res.status(200).json({
+      users,  // Updated variable name here
+    });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
