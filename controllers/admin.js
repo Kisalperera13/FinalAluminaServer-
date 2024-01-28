@@ -43,11 +43,7 @@ export const adminApproveUser = async (req, res) => {
 export const adminRejectUser = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const user = await User.findByIdAndUpdate(
-      userId,
-      { approved: false },
-      { new: true }
-    );
+    const user = await User.findByIdAndDelete(userId);
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
