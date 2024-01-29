@@ -60,23 +60,35 @@ export const register = async (req, res) => {
 };
 
 
-  /* LOGGING IN */
-export const login = async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email: email });
-      if (!user) return res.status(400).json({ msg: "User does not exist. " });
-      if (!user.approved) return res.status(400).json({ msg: "Account does not approved. " });  
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) return res.status(400).json({ msg: "Invalid credentials. " });
-  
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-      delete user.password;
-      res.status(200).json({ token, user });
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  }; 
+        /* LOGGING IN */
+      export const login = async (req, res) => {
+        try {
+          const { email, password } = req.body;
+          const user = await User.findOne({ email: email });
+
+          if (!user) {
+            return res.status(400).json({ error: "User does not exist." });
+          }
+
+          if (!user.approved) {
+            return res.status(400).json({ error: "Account not approved." });
+          }
+
+          const isMatch = await bcrypt.compare(password, user.password);
+
+          if (!isMatch) {
+            return res.status(400).json({ error: "Invalid credentials." });
+          }
+
+          // If everything is successful, generate a token and send user data
+          const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+          delete user.password;
+          res.status(200).json({ token, user });
+        } catch (err) {
+          res.status(500).json({ error: err.message });
+        }
+    };
+ 
   
     /*  ADMIN LOGGING IN */
     export const loginAdmin = async (req, res) => {
