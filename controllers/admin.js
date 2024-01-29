@@ -9,7 +9,7 @@ import User from "../models/User.js";
 export const fetchAdmin = async (req, res) => {
   try {
     // Fetch admin information from your API
-    const admin = await Admin.findOne(/* Add your query here */);
+    // const admin = await Admin.findOne(/* Add your query here */);
 
     // Send the admin data as the response
     res.json(admin);
@@ -31,8 +31,6 @@ export const adminApproveUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-
-    // Optionally, send an email to the user notifying them of the approval.
 
     res.json(user);
   } catch (err) {
