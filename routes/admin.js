@@ -12,4 +12,6 @@ router.get('/fetchadmin', fetchAdmin);
 router.put('/approve/:userId',verifyToken, adminApproveUser);
 router.put('/reject/:userId', verifyToken, adminRejectUser);
 
+
+
 export default router;
